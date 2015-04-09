@@ -89,10 +89,12 @@ int main(int argc, char* argv[]) {
 	return 0;
     }
     
-    if (setsockopt(sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&mgroup, sizeof(mgroup)) < 0) {
-	perror("setsockopt() IPPROTO_IP: error ");
-	close(sockfd);
-	return 0;
+    if ((inet_addr(argv[1]) & 0x000000E0) == 0x000000E0) {
+        if (setsockopt(sockfd, IPPROTO_IP, IP_ADD_MEMBERSHIP, (char *)&mgroup, sizeof(mgroup)) < 0) {
+            perror("setsockopt() IPPROTO_IP: error ");
+	    close(sockfd);
+	    return 0;
+        }
     }
 
     while(1) {
